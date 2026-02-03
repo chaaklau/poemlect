@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+*.log
+debug_log.txt
+imports_log.txt
+error_log.txt
+
+# OS
+.DS_Store
+.VSCode
+
+# Project specific
+debug_augment.py
+check_imports.py

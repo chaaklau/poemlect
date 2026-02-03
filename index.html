@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poemlect: 唐詩三百首 Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="header-left">
+                <div class="logo">唐詩三百首</div>
+                <nav class="main-tabs">
+                    <button class="tab-btn active" data-tab="poems">詩選</button>
+                    <button class="tab-btn" data-tab="stats">統計</button>
+                    <button class="tab-btn" data-tab="about">關於</button>
+                </nav>
+            </div>
+            
+            <div class="controls" id="poem-controls">
+                <!-- Moved to sidebar -->
+            </div>
+        </header>
+
+        <!-- View: Poems -->
+        <div id="view-poems" class="main-content view-section active">
+            <!-- Left Panel: Navigation / Visualization -->
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                     <div class="search-row">
+                        <input type="text" id="search-input" placeholder="搜尋..." />
+                    </div>
+                     <div class="filter-row">
+                        <select id="type-filter">
+                            <option value="">所有體裁</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="poem-list">
+                    <!-- Poems generated here via JS -->
+                </div>
+            </nav>
+
+            <!-- Right Panel: Poem Display -->
+            <main class="poem-display" id="poem-display">
+                <div class="empty-state">請從左側選擇詩歌</div>
+            </main>
+        </div>
+
+        <!-- View: Stats -->
+        <div id="view-stats" class="view-section" style="display: none;">
+            <div class="content-card">
+                <h2>押韻統計</h2>
+                <div id="stats-container">載入中...</div>
+            </div>
+        </div>
+
+        <!-- View: About -->
+        <div id="view-about" class="view-section" style="display: none;">
+             <div class="content-card" style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2 style="margin-bottom: 2rem;">關於 Poemelect</h2>
+                
+                <div style="font-size: 1.1rem; line-height: 1.8; color: #444; text-align: left;">
+                    <p style="margin-bottom: 1.5rem;">
+                        <strong>Poemelect</strong> 是一個探索漢語詩歌聲音之美的數位人文實驗。透過對《唐詩三百首》進行多語言（中古漢語、粵語、普通話）的語音重建與對照，我們嘗試以視覺化的方式呈現詩歌的押韻結構與流變。
+                    </p>
+                    
+                    <h3 style="margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">致謝與資料來源</h3>
+                    <ul style="list-style: none; padding: 0; margin-top: 1rem;">
+                        <li style="margin-bottom: 1rem;">
+                            <strong>詩歌資料庫 (Poetry Corpus):</strong><br>
+                            本專案的文本資料來自 GitHub 開源專案 <a href="https://github.com/chinese-poetry/chinese-poetry" target="_blank" style="color: var(--accent-color);">chinese-poetry</a>。<br>
+                            <span style="font-size: 0.8rem; color: #888;">(License: MIT)</span>
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <strong>靈感來源 (Inspiration):</strong><br>
+                            本專案的視覺化呈現受西方數位人文領域（Digital Humanities）中關於 <strong>莎士比亞十四行詩 (Shakespeare's Sonnets)</strong> 的各類視覺化專案啟發。
+                        </li>
+                        <li style="margin-bottom: 1rem;">
+                            <strong>AI 協作 (AI Assistance):</strong><br>
+                            本專案由 <strong>Chaak-ming Lau 劉擇明</strong> 與 <strong>Gemini 3 Pro</strong> 協作開發。
+                        </li>
+                    </ul>
+                </div>
+                
+                <div style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 2rem; color: #666; font-size: 0.9rem;">
+                    <p style="margin-bottom: 0.5rem;">Created by <strong>Chaak-ming Lau 劉擇明</strong></p>
+                    <p>
+                        Check out <a href="https://typeduck.hk" target="_blank" style="color: var(--accent-color); text-decoration: none;">TypeDuck</a> 
+                        and <a href="https://chaak.net" target="_blank" style="color: var(--accent-color); text-decoration: none;">chaak.net</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,539 @@
+:root {
+    --bg-color: #f4f4f0; /* Paper-like off-white */
+    --text-color: #2b2b2b; /* Soft black */
+    --accent-color: #b7410e; /* Rust red for rhymes */
+    --sidebar-bg: #e8e8e4;
+    --border-color: #d0d0ce;
+    --font-main: 'Noto Serif TC', serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Bar */
+.top-bar {
+    height: 60px;
+    background-color: var(--sidebar-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 100;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2rem;
+}
+
+.main-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-btn:hover {
+    color: var(--accent-color);
+}
+
+.tab-btn.active {
+    color: var(--text-color);
+    border-bottom-color: var(--accent-color);
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Main Layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* Views */
+.view-section {
+    width: 100%;
+    height: 100%;
+}
+
+.view-section.active {
+    display: flex !important; /* Force flex for main layout */
+}
+
+/* Specific view styles */
+#view-poems {
+    flex-direction: row;
+    overflow: hidden;
+}
+
+#view-stats, #view-about {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.content-card {
+    background: white;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    line-height: 1.6;
+}
+
+/* Sidebar Stats */
+.sidebar-stats-row {
+    display: flex;
+    flex-direction: column; /* Vertical alignment */
+    gap: 4px;
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    color: #444;
+    min-width: 80px; /* Ensure fixed space for alignment */
+    align-items: flex-end; /* Align to right */
+    justify-content: center;
+}
+
+.stat-pill {
+    background: #fcfcfc;
+    border: 1px solid #eee;
+    padding: 1px 6px;
+    border-radius: 4px;
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.stat-pass {
+    border-color: #4CAF50; /* Green */
+    background-color: #f0fff0;
+}
+
+.stat-fail {
+    border-color: #F44336; /* Red */
+    background-color: #fff0f0;
+}
+
+.stat-label {
+    font-weight: bold;
+    color: #888;
+}
+
+/* Main Visual Row */
+.main-visual-row { /* Deprecated class, reused logic in mini-display-area */
+    display: none;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 360px; /* Reduced from 420px */
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    padding: 0; /* Remove padding from container */
+}
+
+.sidebar-header {
+    padding: 1rem;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%; /* Ensure header takes full width */
+}
+
+#poem-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.search-row input, .filter-row select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.poem-btn {
+    display: flex;
+    flex-direction: row; 
+    align-items: flex-start;
+    gap: 0.8rem;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background: var(--bg-color);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.poem-btn-info {
+    flex: 1;
+    min-width: 0; 
+    padding-top: 2px;
+}
+
+.poem-btn-thumbnails {
+    display: flex;
+    gap: 20px; 
+    flex-shrink: 0; 
+}
+
+.thumb-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48px; 
+}
+
+.thumb-label {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.mini-preview {
+    font-size: 0.5rem; /* Smaller for 3 col */
+    line-height: 1.2;
+    color: #ccc; /* Default gray for non-rhyme */
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 2px;
+    border: 1px solid #eee;
+}
+
+.rhyme-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    margin: 1px;
+}
+
+/* Mini rhyme character */
+.rhyme-char {
+    color: var(--accent-color);
+    font-weight: 900;
+}
+
+.no-rhyme-dot {
+    width: 4px;
+    height: 4px;
+    background-color: #bbb;
+    margin: 1px;
+}
+
+.punct-dot {
+    width: 4px;
+    height: 4px;
+    background: transparent;
+    margin: 1px;
+}
+
+/* Right Panel */
+.poem-display {
+    flex: 1;
+    overflow: auto; /* Allow both X and Y scrolling */
+    padding: 2rem;
+    background-color: var(--bg-color);
+    /* Make sure this scrolls independently */
+    height: 100%; 
+    min-height: 0;
+}
+
+.display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;    /* But expand to fill parent at least */
+    max-width: none;    /* Remove limitation */
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+.lang-switcher-row {
+    display: flex;
+    gap: 1rem;
+    align-self: flex-end; /* Align to right */
+    margin-right: 1rem;
+}
+
+.lang-text-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    color: #999;
+    cursor: pointer;
+    padding: 5px;
+    font-family: inherit;
+}
+
+.lang-text-btn:hover {
+    color: #666;
+}
+
+.lang-text-btn.active {
+    color: var(--text-color);
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.poem-card {
+    background: #fff;
+    padding: 2.5rem 3rem 1.5rem 3rem; /* Reduced top/bottom padding */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 100%;
+    min-height: 400px; /* Reduced min height further */
+    display: flex;
+    flex-direction: column; 
+    gap: 1rem; /* Reduced gap */
+    position: relative;
+    border-radius: 2px;
+}
+
+/* Bigger Title and Author */
+.poem-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem; /* Reduce margin */
+}
+
+.poem-author {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 0px; /* Reduce margin */
+}
+
+.mini-display-area {
+    display: flex;
+    justify-content: space-evenly; /* Spread evenly */
+    gap: 1rem;
+    padding-top: 2rem;
+    width: 100%;
+    margin-top: 1rem;
+    border-top: 1px dotted #eee; /* Clear demarcation */
+}
+
+.mini-display-area .thumb-col {
+    width: 33%; /* One-third each */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; 
+    padding: 0 1rem;
+}
+
+/* Add clear demarcations between preview columns */
+.mini-display-area .thumb-col:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0; /* Align to right edge of col */
+    top: 50%;
+    transform: translateY(-50%);
+    height: 80px; /* Adjust height of divider */
+    width: 1px;
+    background-color: #e0e0e0;
+}
+
+/* Increase mini preview size in the main display */
+.mini-display-area .mini-preview {
+    padding: 5px;
+    background: transparent;
+    border: none;
+    transform: scale(2.6); /* Make it bigger: 2.0 * 1.3 = 2.6 */
+    transform-origin: top center;
+}
+
+/* Original Styles... */
+
+.lang-switcher { /* Removed/Renamed to lang-switcher-row, keeping for safety if reused */
+    display: none;
+}
+
+.poem-meta {
+    writing-mode: horizontal-tb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem; /* Reduce */
+    margin-bottom: 0.5rem; /* Reduce */
+}
+
+.share-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    transition: color 0.2s;
+}
+
+.share-btn:hover {
+    color: var(--accent-color);
+}
+
+.share-btn svg {
+    margin-right: 4px;
+}
+
+.poem-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    border-bottom: 1px dashed #f0f0f0;
+    padding-bottom: 0.5rem;
+    justify-content: center; /* Center the whole row content if max-width allows */
+}
+
+.line-text {
+    flex: 2; /* Main poem takes more space */
+    min-width: 74rem; /* Support 20 chars (3.5rem + 0.2rem gap) */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end; /* Align bottom */
+    justify-content: center; /* Center characters in the line */
+    gap: 0.2rem;
+    font-size: 2.0rem; /* Slightly smaller to fit better */
+    line-height: 1.1; /* Reduced line height */
+}
+
+.line-notes {
+    flex: 1; /* Notes in margin */
+    font-size: 0.9rem;
+    color: #888;
+    padding-left: 1.5rem;
+    border-left: 2px solid #f4f4f0;
+    margin-left: 1rem;
+    align-self: stretch; /* Full height border */
+    display: flex;
+    align-items: center; 
+}
+
+/* Ruby-like Char Block */
+.char-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 3.5rem; /* Fixed width for equal spacing regardless of romanization */
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.char-roman {
+    font-size: 0.4em; /* Enlarge romanization relative to main char */
+    color: #666; /* Darker for better visibility */
+    margin-bottom: 2px;
+    font-weight: 500;
+    user-select: none;
+    height: 1.2em; 
+}
+
+.char-text {
+    /* Main char style */
+    position: relative;
+    cursor: default;
+}
+
+.char-text.rhyme {
+    color: var(--accent-color);
+    font-weight: bold;
+    transform: scale(1.1); /* Slight pop */
+}
+
+/* Tooltip removed - replaced by on-top display */
+.poem-char:hover::after {
+    display: none;
+}
+
+.empty-state {
+    color: #999;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-top: 2rem;
+}
+
+/* Controls */
+.divider {
+    width: 1px;
+    height: 20px;
+    background: #ccc;
+    margin: 0 10px;
+}
+
+#search-input {
+    padding: 0.4rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: inherit;
+    width: 150px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #666;
+}
