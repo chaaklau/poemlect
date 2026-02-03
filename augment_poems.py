@@ -19,6 +19,16 @@ def get_rhyme_final(pronunciation, lang):
         s = re.sub(r'\d+', '', s)
         # Remove initials
         s = re.sub(r'^(zh|ch|sh|b|p|m|f|d|t|n|l|g|k|h|j|q|x|r|z|c|s|y|w)', '', s)
+        
+        # Remove glides i, u, v (ü) if followed by a vowel (a, e, o)
+        # This handles cases like:
+        # guang -> uang -> ang
+        # xiang -> iang -> ang
+        # chuang -> uang -> ang
+        # jia -> ia -> a
+        # duo -> uo -> o
+        s = re.sub(r'^[iuv](?=[aeo])', '', s)
+        
         return s
         
     elif lang == 'yue':

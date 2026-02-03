@@ -39,23 +39,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (urlLang && ['lzt', 'yue', 'cmn'].includes(urlLang)) {
                 currentDisplayLang = urlLang;
+            } else if (!urlLang) {
+                // Default landing lang
+                currentDisplayLang = 'yue';
             }
 
             if (urlId) {
                  const poemExists = poemsData.find(p => p.id === urlId);
                  if (poemExists) {
                      currentPoemId = urlId;
-                     // Scroll to button?
-                     setTimeout(() => {
-                        const btn = document.querySelector(`.poem-btn[data-id="${currentPoemId}"]`);
-                        if (btn) btn.scrollIntoView({ block: 'center' });
-                     }, 100);
                  }
             } else if (filteredPoems.length > 0) {
-                 // Optional default selection
+                 // Default landing poem
+                 currentPoemId = 81;
             }
             
             if (currentPoemId) {
+                 // Scroll to button?
+                 setTimeout(() => {
+                    const btn = document.querySelector(`.poem-btn[data-id="${currentPoemId}"]`);
+                    if (btn) btn.scrollIntoView({ block: 'center' });
+                 }, 100);
+                 
                 renderPoemDetail(currentPoemId);
             }
         })
