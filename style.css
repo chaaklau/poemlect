@@ -537,3 +537,123 @@ input:focus {
     outline: none;
     border-color: #666;
 }
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    /* Layout: Stack Sidebar and Content */
+    #view-poems {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        flex-shrink: 0;
+    }
+    
+    .sidebar-header {
+        display: none; /* Hide filter/search on mobile */
+    }
+
+    #poem-list {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 80px; /* Much shorter height */
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .poem-btn {
+        flex: 0 0 160px; /* Narrower width */
+        width: 160px;
+        height: 100%;
+        margin-bottom: 0;
+        flex-direction: row; /* Horizontal again for compactness? Or simple block */
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+    }
+
+    /* Hide detailed stats in the list on mobile to save space */
+    .poem-btn .sidebar-stats-row {
+        display: none;
+    }
+    
+    .poem-btn-info {
+        text-align: center;
+    }
+    
+    .poem-btn .mini-title {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: bold;
+    }
+    
+    .poem-display {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    /* Relax the fixed width constraint on mobile to prevent massive horizontal scrolling */
+    .line-text {
+        min-width: auto; 
+        font-size: 1.6rem; /* Slightly smaller text */
+        flex-wrap: wrap; 
+        justify-content: flex-start; /* Left align might read better, or keep center? */
+    }
+    
+    .char-block {
+        width: 2.8rem; /* Smaller character blocks */
+    }
+    
+    /* Notes might need to wrap if space is tight */
+    .poem-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .line-notes {
+        border-left: none;
+        padding-left: 0;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px dashed #eee;
+        font-size: 0.8rem;
+    }
+    
+    /* Poem Card Padding */
+    .poem-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    /* Adjust Mini Previews scaling */
+    .mini-display-area .mini-preview {
+        transform: scale(2.0); /* Reduce scale */
+    }
+    
+    /* Stats Grid Responsiveness */
+    #stats-container > div {
+        grid-template-columns: 1fr !important; /* Stack columns */
+    }
+    
+    /* Top Bar */
+    .top-bar {
+        padding: 0 1rem;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+    
+    .tab-btn {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}

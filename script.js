@@ -100,6 +100,59 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) searchInput.addEventListener('input', filterPoems);
     if (typeFilter) typeFilter.addEventListener('change', filterPoems);
 
+    // --- Swipe Support ---
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    poemDisplay.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    poemDisplay.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        if (!currentPoemId || filteredPoems.length === 0) return;
+        
+        const threshold = 50; // min distance
+        const diff = touchEndX - touchStartX;
+        
+        if (Math.abs(diff) < threshold) return;
+
+        // Find current index
+        const currentIndex = filteredPoems.findIndex(p => p.id === currentPoemId);
+        if (currentIndex === -1) return;
+
+        if (diff > 0) {
+            // Right Swipe -> Previous
+            if (currentIndex > 0) {
+                const prevPoem = filteredPoems[currentIndex - 1];
+                switchToPoem(prevPoem.id);
+            }
+        } else {
+            // Left Swipe -> Next
+            if (currentIndex < filteredPoems.length - 1) {
+                const nextPoem = filteredPoems[currentIndex + 1];
+                switchToPoem(nextPoem.id);
+            }
+        }
+    }
+
+    function switchToPoem(id) {
+        currentPoemId = id;
+        renderPoemDetail(id);
+        
+        // Update sidebar
+        document.querySelectorAll('.poem-btn').forEach(b => b.classList.remove('active'));
+        const btn = document.querySelector(`.poem-btn[data-id="${id}"]`);
+        if (btn) {
+            btn.classList.add('active');
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        }
+    }
+
     // --- Core Logic ---
 
     function populateTypeFilter() {
