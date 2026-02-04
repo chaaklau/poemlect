@@ -22,6 +22,12 @@ def get_rhyme_final(pronunciation, lang):
         # Remove initials
         s = re.sub(r'^(zh|ch|sh|b|p|m|f|d|t|n|l|g|k|h|j|q|x|r|z|c|s|y|w)', '', s)
         
+        # Handle special Pinyin abbreviations
+        if s == 'ui':
+            return 'ei'
+        if s == 'iu':
+            return 'ou'
+
         # Remove glides i, u, v (ü) if followed by a vowel (a, e, o)
         # This handles cases like:
         # guang -> uang -> ang
