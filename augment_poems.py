@@ -1,6 +1,8 @@
 import json
 import re
 import traceback
+import csv
+import os
 from pypinyin import pinyin, Style
 import ToJyutping
 import ToMiddleChinese
@@ -75,6 +77,20 @@ def process_poems():
     print("Loading poems...")
     with open('data/poems.json', 'r', encoding='utf-8') as f:
         poems = json.load(f)
+    
+    print("Loading corrections...")
+    corrections_map = {}
+    if os.path.exists('data/corrections.csv'):
+        with open('data/corrections.csv', 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                try:
+                    pid = int(row['id'])
+                    if pid not in corrections_map:
+                        corrections_map[pid] = []
+                    corrections_map[pid].append(row)
+                except ValueError:
+                    continue
 
     processed_poems = []
     
@@ -246,6 +262,57 @@ def process_poems():
                 "data": line_data
             })
             
+        # Apply corrections
+        poem_id = poem.get('id')
+        if poem_id in corrections_map:
+            for corr in corrections_map[poem_id]:
+                target_str = corr['str']
+                lang = corr['lang']
+                rom_str = corr['rom']
+                rom_list = rom_str.split()
+                
+                # Identify available languages and indices
+                # Indices in line_data: char=0, cmn=1, yue=2, lzt=3, cmn_r=4, yue_r=5, lzt_r=6, note=7
+                if lang == 'cmn':
+                    idx_pron = 1
+                    idx_rhyme = 4
+                elif lang == 'yue':
+                    idx_pron = 2
+                    idx_rhyme = 5
+                elif lang == 'lzt':
+                    idx_pron = 3
+                    idx_rhyme = 6
+                else:
+                    continue
+                    
+                # Find matching text in lines
+                for line_obj in new_content:
+                    text_line = line_obj['text']
+                    if target_str in text_line:
+                        start_pos = text_line.find(target_str)
+                        
+                        # Safety check: lengths must match
+                        if len(target_str) != len(rom_list):
+                            print(f"Warning: Correction length mismatch for poem {poem_id}, str='{target_str}'")
+                            continue
+                            
+                        # Apply updates
+                        for k in range(len(target_str)):
+                            data_idx = start_pos + k
+                            new_pron = rom_list[k]
+                            
+                            # Create new rhyme
+                            new_rhyme = get_rhyme_final(new_pron, lang)
+                            
+                            # Update data
+                            line_obj['data'][data_idx][idx_pron] = new_pron
+                            line_obj['data'][data_idx][idx_rhyme] = new_rhyme
+                            
+                        # Assuming one adjustment per correction entry is enough, or should we replace all occurrences?
+                        # Let's break after first find per line, or per poem?
+                        # Usually correction is specific. Break to next correction item.
+                        break
+
         processed_poems.append({
             "id": i+1,
             "title": poem.get('title'),
